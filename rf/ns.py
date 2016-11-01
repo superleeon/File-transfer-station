@@ -166,26 +166,35 @@ def prepare_date_for_ns_instantiate(nss_url, ns_name, ns_package_id):
         "inputparameters": {},
         "vnfinputparameters": []
     }
-    package = json.loads(package)
     inputparameters = package['inputParameters']['inputs']
     for param in inputparameters:
         value = inputparameters.get(param)
         data['inputparameters'][param] = value.get("default", "1")
-    # print(data['inputparameters'])
     vnfinputparameters = package['vnfInputParameters']
     for vnfInputParameter in vnfinputparameters:
         dict_tmp = {
-            "vnfdId": vnfInputParameter.get('vnfdid'),
-            "vnfdName": ,
-            "vnfdVersion": vnfInputParameter.get('vnfdversion'),
-            "inputs": ,
-            "inputsDesc": ,
-            "metadata": ,
-            "isShared": ,
-            "vnfInstanceId": ,
+            "vnfdId": vnfInputParameter['metadata'].get('vnfdid'),
+            "vnfdName": vnfInputParameter['metadata'].get('vnfdname'),
+            "vnfdVersion": vnfInputParameter['metadata'].get('vnfdversion'),
+            "inputs": {},
+            "inputsDesc": {},
+            "metadata": {},
+            "isShared": "",
+            "vnfInstanceId": "",
             "vnfInstanceName":"",
-            "vnfNodeName": 
+            "vnfNodeName": vnfInputParameter['metadata'].get('vnfnodename')
         }
+        params = vnfInputParameter['inputs']
+        for param in params:
+            value = params.get(param)
+            dict_tmp['inputs'][param] = value.get("default", "1")
+            dict_tmp['inputsDesc'][param] = ""
+        metadatas = vnfInputParameter['metadata']
+        for meta in metadatas:
+            dict_tmp['metadata'][meta] = metadatas.get(meta)
+        dict_tmp['metadata']['vnfInstances'] = []
+        data['vnfinputparameters'].append(dict_tmp)
+        return json.dumps(data)
 
 
 

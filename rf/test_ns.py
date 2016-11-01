@@ -84,8 +84,13 @@ def do_ns_delete(msb_url, nsinstname):
 # ns实例化    
 def do_ns_instantiate(msb_url, ns_name, ns_package_id):
     try:
+        nso_url = str(msb_url) + "/api/v1/ns_o_p"
         nss_url = str(msb_url) + "/api/v1/ns_o_p/nss"
+        package_url = str(nss_url) + "/nsPackages"
         (flag, nsinstid) = ns.ns_exist_return_id(nss_url, ns_name)
+        if not ns_package_exist(package_url, ns_package_id):
+            print("cannot instantiate ns [%s],because package [%s] not exist." % (ns_name, ns_package_id))
+            return 
         if flag:
             print("ns inst [%s] is already exist, do delete.")
             delete_url = nss_url + "/" + str(nsinstid) + "/delete"
@@ -102,9 +107,24 @@ def do_ns_instantiate(msb_url, ns_name, ns_package_id):
                 if progress.get('status') == 'error':
                     print("cannot create ns inst [%s],the exist inst delete fail.")
                     return
+                time.sleep(10)
         # todo 创建ns实例
-
-
+        data = ns.prepare_date_for_ns_instantiate(nss_url, ns_name, ns_package_id)
+        create_response = ns.send_create_ns(nss_url, data)
+        create_resp = json.loads(create_response)
+        jobid = create_resp.get('jobid')
+        while True:
+            job = ns.progress(nso_url, jobid)
+            job = json.loads(job)
+            status = job.get('status')
+            progress = job.get('progress')
+            if status == 'error':
+                return 
+            if status == 'finished' and progress == 100:
+                break
+            time.sleep(10)
+        print("ns instantiate success.")
+        return "success"
     except urllib2.HTTPError as e:
         print "*" * 50
         print e.code
