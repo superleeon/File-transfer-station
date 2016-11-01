@@ -6,6 +6,7 @@ import ns
 import json
 import traceback
 import urllib2
+import time
 
 # ns包删除
 def do_package_delete(msb_url, package_id):
@@ -65,9 +66,13 @@ def do_ns_delete(msb_url, nsinstname):
         while True:
             progress = ns.progress(progress_url, jobid)
             progress = json.loads(progress)
+            if progress.get('status') == 'error':
+                return
             if progress.get('status') == 'finished' and progress.get('progress') == 100:
-                # TODO 查询服务是否已经成功创建 
-                return progress
+                break 
+            time.sleep(10)
+        print("delete ns [%s] success." % nsinstname)
+        return "success"
     except urllib2.HTTPError as e:
         print "*" * 50
         print e.code

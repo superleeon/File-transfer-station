@@ -80,7 +80,7 @@ def ns_package(package_url, package_id, filename, description):
     data.append('Content-Disposition: form-data; name="%s"; filename="%s"' % ('file', str(filename)))
     data.append('Content-Type: %s\r\n' % 'application/zip')
     # fileresource = os.path.join(os.path.abspath('../resource'), str(filename))
-    fileresource = os.path.abspath(os.path.join(os.path.dirname(__file__),"../resource","case6.csar"))
+    fileresource = os.path.abspath(os.path.join(os.path.dirname(__file__),"../resource",str(filename)))
     print("ns package register, package resource = [%s]" % fileresource)
     fr = open(r'%s' % str(fileresource), 'rb')
     data.append(fr.read())
@@ -171,7 +171,7 @@ def prepare_date_for_ns_instantiate(nss_url, ns_name, ns_package_id):
     for param in inputparameters:
         value = inputparameters.get(param)
         data['inputparameters'][param] = value.get("default", "1")
-    print(data['inputparameters'])
+    # print(data['inputparameters'])
     vnfinputparameters = package['vnfInputParameters']
     for vnfInputParameter in vnfinputparameters:
         dict_tmp = {
@@ -197,142 +197,5 @@ if __name__ == "__main__":
     # ns_package('http://10.62.100.149:10080/api/v1/ns_o_p/nsPackages/create', 'case6', 'case6.csar', 'case6')
     # get_ns_package_by_package_id("http://10.62.100.149:10080/api/v1/ns_o_p/nsPackages", "case1")\
     # get_ns_packages("http://10.62.100.149:10080/api/v1/ns_o_p/nsPackages")
-    # data = {
-    #     "nsdId": "",
-    #     "nsdName": "case6",
-    #     "packageId": "case6",
-    #     "inputparameters": {
-    #         "Latency": "10",
-    #         "Mobility_level": "High",
-    #         "Subscribers": "1000",
-    #         "Scale_in_parameter": "action=scale_in,nf=zte_nf_am,step=1000",
-    #         "Scale_out_threshold": "Subscribers>70",
-    #         "plan_template_url": "ftp://root:root@10.62.57.171:21/ns-test",
-    #         "Priority": "5",
-    #         "Scale_out_parameter": "action=scale_out,nf=zte_nf_am,step=1000",
-    #         "Scale_in_threshold": "Subscribers<40",
-    #         "Granularity": "5",
-    #         "Troughthput": "10",
-    #         "Type": "eMBB"
-    #     },
-    #     "vnfinputparameters": [
-    #         {
-    #             "vnfdId": "zyl3",
-    #             "vnfdName": "1",
-    #             "vnfdVersion": "1",
-    #             "inputs": {
-    #                 "ipAddress": "3.3.3.3",
-    #                 "dcId": "0",
-    #                 "port": "3",
-    #                 "resource_template_url": "ccc",
-    #                 "nf_id": "3"
-    #             },
-    #             "inputsDesc": {
-    #                 "ipAddress": "",
-    #                 "dcId": "",
-    #                 "port": "",
-    #                 "resource_template_url": "",
-    #                 "nf_id": ""
-    #             },
-    #             "metadata": {
-    #                 "vnfInstances": [],
-    #                 "vnfdid": "zyl3",
-    #                 "vnfdversion": "1",
-    #                 "vnfnodename": "VNFDC",
-    #                 "vnfdname": "1",
-    #                 "isShared": "False"
-    #             },
-    #             "isShared": "",
-    #             "vnfInstanceId": "",
-    #             "vnfInstanceName": ""
-    #         },
-    #         {
-    #             "vnfdId": "zyl2",
-    #             "vnfdName": "1",
-    #             "vnfdVersion": "1",
-    #             "inputs": {
-    #                 "ipAddress": "2.2.2.2",
-    #                 "dcId": "0",
-    #                 "port": "2",
-    #                 "nf_id": "2"
-    #             },
-    #             "inputsDesc": {
-    #                 "ipAddress": "",
-    #                 "dcId": "",
-    #                 "port": "",
-    #                 "nf_id": ""
-    #             },
-    #             "metadata": {
-    #                 "vnfInstances": [],
-    #                 "vnfdid": "zyl2",
-    #                 "vnfdversion": "1",
-    #                 "vnfnodename": "VNFDB",
-    #                 "vnfdname": "1",
-    #                 "isShared": "False"
-    #             },
-    #             "isShared": "",
-    #             "vnfInstanceId": "",
-    #             "vnfInstanceName": ""
-    #         },
-    #         {
-    #             "vnfdId": "zyl1",
-    #             "vnfdName": "1",
-    #             "vnfdVersion": "1",
-    #             "inputs": {
-    #                 "ipAddress": "1.1.1.1",
-    #                 "dcId": "0",
-    #                 "port": "1",
-    #                 "nf_id": "1"
-    #             },
-    #             "inputsDesc": {
-    #                 "ipAddress": "",
-    #                 "dcId": "",
-    #                 "port": "",
-    #                 "nf_id": ""
-    #             },
-    #             "metadata": {
-    #                 "vnfInstances": [],
-    #                 "vnfdid": "zyl1",
-    #                 "vnfdversion": "1",
-    #                 "vnfnodename": "VNFDA",
-    #                 "vnfdname": "1",
-    #                 "isShared": "False"
-    #             },
-    #             "isShared": "",
-    #             "vnfInstanceId": "",
-    #             "vnfInstanceName": ""
-    #         },
-    #         {
-    #             "vnfdId": "zyl4",
-    #             "vnfdName": "1",
-    #             "vnfdVersion": "1",
-    #             "inputs": {
-    #                 "ipAddress": "4.4.4.4",
-    #                 "dcId": "0",
-    #                 "port": "4",
-    #                 "resource_template_url": "ddd",
-    #                 "nf_id": "4"
-    #             },
-    #             "inputsDesc": {
-    #                 "ipAddress": "",
-    #                 "dcId": "",
-    #                 "port": "",
-    #                 "resource_template_url": "",
-    #                 "nf_id": ""
-    #             },
-    #             "metadata": {
-    #                 "vnfInstances": [],
-    #                 "vnfdid": "zyl4",
-    #                 "vnfdversion": "1",
-    #                 "vnfnodename": "VNFDD",
-    #                 "vnfdname": "1",
-    #                 "isShared": "False"
-    #             },
-    #             "isShared": "",
-    #             "vnfInstanceId": "",
-    #             "vnfInstanceName": ""
-    #         }
-    #     ]
-    # }
     # send_create_ns("http://10.62.100.149:10080/api/v1/ns_o_p/nss",data)
     # progress("http://10.62.100.149:10080/api/v1/ns_o_p/jobs","cdb0822c967711e69c460242ac110006")
