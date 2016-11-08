@@ -1,3 +1,7 @@
 robot framework: http://www.aichengxu.com/view/9389719
 
+python zip files:
+	http://www.oschina.net/code/snippet_89296_9122
+
+
 使用node打造静态网站：https://cnodejs.org/topic/4f16442ccae1f4aa27001071
