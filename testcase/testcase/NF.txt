@@ -1,0 +1,21 @@
+*** Settings ***
+Library           ../library/test_nf.py
+Resource          ../library/msbServices/vnfplugin/serviceInfo.txt
+
+*** Variables ***
+${packageId}      testcase-VNFD
+${packageName}    VNFD-test.csar
+${nfInstName}     RFtestVNF
+${from_package}    VNFD-test.csar
+${msb_url}        http://10.62.100.184:10080
+
+*** Test Cases ***
+nf
+    ${register}=    do nf package register    ${msb_url}    ${packageId}    ${packageName}    nf package
+    should contain    ${register}    {"error_msg":"success"}
+    ${instantiate}=    do nf instantiate    ${msb_url}    ${nfInstName}    ${packageId}
+    should be equal    ${instantiate}    success
+    ${delete}=    do nf delete    ${msb_url}    ${nfInstName}
+    should be equal    ${delete}    success
+    ${unregister}=    do package delete    ${msb_url}    ${packageId}
+    should contain    ${unregister}    {"error_msg":"success"}
