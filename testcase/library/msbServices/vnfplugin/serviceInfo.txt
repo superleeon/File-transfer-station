@@ -1,2 +1,0 @@
-*** Variables ***
-${vnfplugin_msbServiceName}    vnfplugin_v1
